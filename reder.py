@@ -77,4 +77,10 @@ def filter_log_2sus(log_suspicious):
             log_2sus[k] = v
     return log_2sus
 
-hours_extract = list(map(lambda t:t[0][11:13] ,matrix_log_file(csv_path_file)))
+def hours_extract(log_matrix):
+    hours_ext = list(map(lambda t:t[0][11:13] ,matrix_log_file(log_matrix)))
+    return
+
+def convert_size_kb(log_matrix):
+    convert_size = list(map(lambda s: str(int(s[5]) / 1024) ,matrix_log_file(csv_path_file)))
+    return convert_size
