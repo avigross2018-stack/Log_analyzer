@@ -25,3 +25,9 @@ def over_5000_bites(log_matrix):
     over_5000 = [info for info in log_matrix if int(info[5]) > 5000]
     return over_5000
 
+def size_tag_list(log_matrix):
+    adding_size = [info + ["LARGE"] if int(info[5]) > 5000 else info + ["NORMAL"] for info in log_matrix]
+    return adding_size
+
+x = matrix_log_file(csv_path_file)
+print(size_tag_list(x))
