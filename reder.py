@@ -65,3 +65,15 @@ def check_log_suspicious(log_matrix):
             suspicious_logs.setdefault(info[1],set()).add("LARGE_PACKET")
     return {k : list(v) for k,v in suspicious_logs.items()}
 
+def filter_log_2sus(log_suspicious):
+    '''
+    Docstring for filter_log_2sus
+    
+    :param log_suspicious: get the return from "def check_log_suspicious(log_matrix)"
+    '''
+    log_2sus = {}
+    for k,v in log_suspicious.items():
+        if len(v) >= 2:
+            log_2sus[k] = v
+    return log_2sus
+
