@@ -21,3 +21,7 @@ def sensitive_ports_list(log_matrix):
     sens_ports = [info for info in log_matrix if info[3] == '22' or info[3] == '23' or info[3] == '3389']
     return sens_ports
 
+def over_5000_bites(log_matrix):
+    over_5000 = [info for info in log_matrix if int(info[5]) > 5000]
+    return over_5000
+
