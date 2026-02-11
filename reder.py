@@ -11,3 +11,10 @@ def matrix_log_file(path):
     return rows
 
 
+def external_ip_addresses_list(log_matrix):
+    #external_ip = ["192.168", '10.']
+    ext_ip_addresses = [info[1] for info in log_matrix if info[1][:7] != "192.168" and info[1][:3] != '10.']
+    return ext_ip_addresses
+
+
+    
