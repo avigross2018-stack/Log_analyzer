@@ -17,4 +17,7 @@ def external_ip_addresses_list(log_matrix):
     return ext_ip_addresses
 
 
-    
+def sensitive_ports_list(log_matrix):
+    sens_ports = [info for info in log_matrix if info[3] == '22' or info[3] == '23' or info[3] == '3389']
+    return sens_ports
+
