@@ -64,7 +64,7 @@ def check_log_suspicious(log_matrix):
         if info[1] in sorted_packet:
             suspicious_logs.setdefault(info[1],set()).add("LARGE_PACKET")
     return {k : list(v) for k,v in suspicious_logs.items()}
-
+# 4
 def filter_log_2sus(log_suspicious):
     '''
     Docstring for filter_log_2sus
@@ -76,11 +76,17 @@ def filter_log_2sus(log_suspicious):
         if len(v) >= 2:
             log_2sus[k] = v
     return log_2sus
-
+# 1
 def hours_extract(log_matrix):
     hours_ext = list(map(lambda t:t[0][11:13] ,matrix_log_file(log_matrix)))
     return
-
+# 2
 def convert_size_kb(log_matrix):
     convert_size = list(map(lambda s: str(int(s[5]) / 1024) ,matrix_log_file(csv_path_file)))
     return convert_size
+
+def filter_port(log_matrix):
+    filtered = list(filter(lambda p: p[3] == "22" or p[3] == "23" or p[3] == "3389",matrix_log_file(log_matrix)))
+    return filtered
+
+
