@@ -152,5 +152,13 @@ def gen_row_and_sus_tup(file_path):
             sus_lst.append("LARGE_PACKET")
         yield (log, sus_lst)
 
+# 4
+def gen_amount_sus_log(file_path):
+    amount = 0
+    logs = yield_log_with_sus(file_path)
+    for log in logs:
+        amount += 1
+    return amount
+
 
 
