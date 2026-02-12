@@ -160,5 +160,9 @@ def gen_amount_sus_log(file_path):
         amount += 1
     return amount
 
+sus_logs = gen_row_and_sus_tup(csv_path_file)
+print(list(sus_logs))
+amount_sus_log = gen_amount_sus_log(csv_path_file)
+print('Total suspicious:',amount_sus_log)
 
 
