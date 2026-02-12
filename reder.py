@@ -6,7 +6,6 @@ def matrix_log_file(path):
     rows = []
     with open(path, 'r') as f:
         csv_reader = csv.reader(f)
-        fields = next(csv_reader)
         for row in csv_reader:
             rows.append(row)
     return rows
@@ -118,7 +117,52 @@ def filter_by_2sus(log_matrix, checking_by_sus_dict):
     filtered = list(filter(lambda l: len(l) > 0,map(lambda r:filter_by_sus_dict(r,checking_by_sus_dict),log_matrix)))
     return filtered
 
+# 1
+def yield_log_matrix(file_path):
+    with open(file_path, 'r') as f:
+        csv_file = csv.reader(f)
+        for row in csv_file:
+            yield row
 
+# 2
+def yield_log_with_sus(file_path):
+    logs = yield_log_matrix(file_path)
+    for log in logs:
+        if log[1][:7] != "192.168" and log[1][:3] != '10.':
+            yield log
+        elif int(log[0][11:13]) >= 00 and int(log[0][11:13]) <6:
+            yield log
+        elif log[3] in ["22", "23", "3389"]:
+            yield log
+        elif int(log[5]) >= 5000:
+            yield log
+        
+# 3
+def gen_row_and_sus_tup(file_path):
+    logs = yield_log_with_sus(file_path)
+    for log in logs:
+        sus_lst = []
+        if log[1][:7] != "192.168" and log[1][:3] != '10.':
+            sus_lst.append("EXTERNAL_IP")
+        if int(log[0][11:13]) >= 00 and int(log[0][11:13]) <6:
+            sus_lst.append("NIGHT_ACTIVITY")
+        if log[3] in ["22", "23", "3389"]:
+            sus_lst.append("SENSITIVE_PORT")
+        if int(log[5]) >= 5000:
+            sus_lst.append("LARGE_PACKET")
+        yield (log, sus_lst)
 
-    
+# 4
+def gen_amount_sus_log(file_path):
+    amount = 0
+    logs = yield_log_with_sus(file_path)
+    for log in logs:
+        amount += 1
+    return amount
+
+sus_logs = gen_row_and_sus_tup(csv_path_file)
+print(list(sus_logs))
+amount_sus_log = gen_amount_sus_log(csv_path_file)
+print('Total suspicious:',amount_sus_log)
+
 
