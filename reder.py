@@ -124,6 +124,19 @@ def yield_log_matrix(file_path):
         for row in csv_file:
             yield row
 
+# 2
+def yield_log_with_sus(file_path):
+    logs = yield_log_matrix(file_path)
+    for log in logs:
+        if log[1][:7] != "192.168" and log[1][:3] != '10.':
+            yield log
+        elif int(log[0][11:13]) >= 00 and int(log[0][11:13]) <6:
+            yield log
+        elif log[3] in ["22", "23", "3389"]:
+            yield log
+        elif int(log[5]) >= 5000:
+            yield log
+        
 
 
     
