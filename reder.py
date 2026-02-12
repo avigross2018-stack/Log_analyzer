@@ -100,3 +100,20 @@ checking_by_sus = {
     "LARGE_PACKET" : lambda row: int(row[5]) > 5000,
     "NIGHT_ACTIVITY" : lambda row: int(row[0][11:13]) >= 00 and int(row[0][11:13]) <6
     }
+
+
+
+def filter_by_sus_dict(row_lst, checking_by_sus_dict):
+    '''
+    Docstring for filter_by_sus_dict
+    return the sus report to every row
+    :param row: Description
+    :param checking_by_sus_dict: Description
+    '''
+    report = list(filter(lambda name: checking_by_sus_dict[name](row_lst),checking_by_sus_dict.keys()))
+    return report
+
+
+
+    
+
