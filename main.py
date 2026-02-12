@@ -53,3 +53,51 @@ def analyze_log(file_path):
     
     return info_dict_sus_ip
 
+def gen_report(file_path):
+    sus_dict = analyze_log(file_path)
+    sus_3 = {}
+    sus_1 = {}
+    for k,v in sus_dict.items():
+        if len(v) >= 3:
+            sus_3[k] = v
+        else:
+            sus_1[k] = v
+    
+    print(f'====================\n'
+          '      Logs Report    \n'
+          '======================')
+    print()
+    print('General Statistics:')
+    print(f'- Amount of logs: {str(amount_of_read_logs)}')
+    print(f'- Suspicious logs: {str(amount_of_sus_logs)}')
+    print(f'- EXTERNAL_IP: {str(amount_of_external_ip)}')
+    print(f'- SENSITIVE_PORT: {str(amount_of_sensitive_port)}')
+    print(f'- LARGE_PACKET: {str(amount_of_large_packet)}')
+    print(f'- NIGHT_ACTIVITY: {str(amount_of_night_activity)}')
+    print()
+    print('IPs with higher risk (3+)')
+    print('--------------------------')
+    for k,v in sus_3.items():
+        print(f'- {k} : {',  '.join(v)}')
+    
+    print()
+    print('IPs with lower risk')
+    print('--------------------------')
+    for k,v in sus_1.items():
+        print(f'- {k} : {',  '.join(v)}')
+
+
+import contextlib
+def save_report(file_path):
+    with open('./report.txt', 'w') as f:
+        with contextlib.redirect_stdout(f):
+            gen_report(file_path)
+
+def main():
+    gen_report(csv_path_file)
+    save_report(csv_path_file)
+    
+    
+
+if __name__ == "__main__":
+    main()
