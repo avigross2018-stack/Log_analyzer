@@ -84,11 +84,19 @@ def hours_extract(file_path):
 def convert_size_kb(file_path):
     convert_size = list(map(lambda s: str(int(s[5]) / 1024) ,matrix_log_file(file_path)))
     return convert_size
-
+# 3
 def filter_port(file_path):
     filtered = list(filter(lambda p: p[3] == "22" or p[3] == "23" or p[3] == "3389",matrix_log_file(file_path)))
     return filtered
-
+# 4
 def filter_activity(file_path):
     filtered = list(filter(lambda t: int(t[0][11:13]) >= 00 and int(t[0][11:13]) < 6,matrix_log_file(file_path)))
     return filtered
+
+
+checking_by_sus = {
+    "EXTERNAL_IP" : lambda row: row[1][:7] != "192.168" and row[1][:3] != '10.',
+    "SENSITIVE_PORT" : lambda row: row[3] == '22' or row[3] == '23' or row[3] == '3389',
+    "LARGE_PACKET" : lambda row: int(row[5]) > 5000,
+    "NIGHT_ACTIVITY" : lambda row: int(row[0][11:13]) >= 00 and int(row[0][11:13]) <6
+    }
