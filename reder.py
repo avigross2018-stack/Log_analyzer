@@ -137,7 +137,20 @@ def yield_log_with_sus(file_path):
         elif int(log[5]) >= 5000:
             yield log
         
+# 3
+def gen_row_and_sus_tup(file_path):
+    logs = yield_log_with_sus(file_path)
+    for log in logs:
+        sus_lst = []
+        if log[1][:7] != "192.168" and log[1][:3] != '10.':
+            sus_lst.append("EXTERNAL_IP")
+        if int(log[0][11:13]) >= 00 and int(log[0][11:13]) <6:
+            sus_lst.append("NIGHT_ACTIVITY")
+        if log[3] in ["22", "23", "3389"]:
+            sus_lst.append("SENSITIVE_PORT")
+        if int(log[5]) >= 5000:
+            sus_lst.append("LARGE_PACKET")
+        yield (log, sus_lst)
 
 
-    
 
