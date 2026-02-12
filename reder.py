@@ -93,7 +93,7 @@ def filter_activity(file_path):
     filtered = list(filter(lambda t: int(t[0][11:13]) >= 00 and int(t[0][11:13]) < 6,matrix_log_file(file_path)))
     return filtered
 
-
+# 5
 checking_by_sus = {
     "EXTERNAL_IP" : lambda row: row[1][:7] != "192.168" and row[1][:3] != '10.',
     "SENSITIVE_PORT" : lambda row: row[3] == '22' or row[3] == '23' or row[3] == '3389',
@@ -102,7 +102,7 @@ checking_by_sus = {
     }
 
 
-
+# 6
 def filter_by_sus_dict(row_lst, checking_by_sus_dict):
     '''
     Docstring for filter_by_sus_dict
@@ -112,6 +112,11 @@ def filter_by_sus_dict(row_lst, checking_by_sus_dict):
     '''
     report = list(filter(lambda name: checking_by_sus_dict[name](row_lst),checking_by_sus_dict.keys()))
     return report
+
+# 7
+def filter_by_2sus(log_matrix, checking_by_sus_dict):
+    filtered = list(filter(lambda l: len(l) > 0,map(lambda r:filter_by_sus_dict(r,checking_by_sus_dict),log_matrix)))
+    return filtered
 
 
 
