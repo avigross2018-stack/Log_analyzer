@@ -17,11 +17,9 @@ from reporter import (
 )
 from reder import matrix_log_file, yield_log_matrix
 
+from rich.console import Console
+console = Console(color_system="256")
 
-# sus_logs = gen_row_and_sus_tup(csv_path_file)
-# print(list(sus_logs))
-# amount_sus_log = gen_amount_sus_log(csv_path_file)
-# print('Total suspicious ',amount_sus_log)
 
 amount_of_read_logs = 0
 amount_of_sus_logs = 0
@@ -49,7 +47,14 @@ def analyze_log(file_path):
             amount_of_sensitive_port += 1
         if "LARGE_PACKET" in row[1]:
             amount_of_large_packet += 1
-    info_dict_sus_ip = {i[0][1] : i[1] for i in file_check_lst}
+    # info_dict_sus_ip = {i[0][1] : i[1] for i in file_check_lst}
+    info_dict_sus_ip = {}
+    for i in file_check_lst:
+        if i[0][1] not in info_dict_sus_ip:
+            info_dict_sus_ip[i[0][1]] = i[1]
+        else:
+            combined = info_dict_sus_ip[i[0][1]] + i[1]
+            info_dict_sus_ip[i[0][1]] = list(set(combined))
     
     return info_dict_sus_ip
 
@@ -64,8 +69,8 @@ def gen_report(file_path):
             sus_1[k] = v
     
     print(f'====================\n'
-          '      Logs Report    \n'
-          '======================')
+          '     Logs Report    \n'
+           '====================')
     print()
     print('General Statistics:')
     print(f'- Amount of logs: {str(amount_of_read_logs)}')
@@ -75,7 +80,7 @@ def gen_report(file_path):
     print(f'- LARGE_PACKET: {str(amount_of_large_packet)}')
     print(f'- NIGHT_ACTIVITY: {str(amount_of_night_activity)}')
     print()
-    print('IPs with higher risk (3+)')
+    print('IPs with higher risk 3+')
     print('--------------------------')
     for k,v in sus_3.items():
         print(f'- {k} : {',  '.join(v)}')
